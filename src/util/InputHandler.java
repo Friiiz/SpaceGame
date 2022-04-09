@@ -22,6 +22,9 @@ public final class InputHandler implements KeyListener, MouseListener, MouseMoti
     public void keyPressed(KeyEvent keyEvent) {
         int key = keyEvent.getKeyCode();
 
+        if (key == KeyEvent.VK_ESCAPE) {
+            System.exit(69);
+        }
     }
 
     @Override
@@ -75,5 +78,29 @@ public final class InputHandler implements KeyListener, MouseListener, MouseMoti
         mouseX = mouseEvent.getX();
         mouseY = mouseEvent.getY();
 
+    }
+
+    public boolean isKeyUp() {
+        return keyUp;
+    }
+
+    public boolean isKeyLeft() {
+        return keyLeft;
+    }
+
+    public boolean isKeyDown() {
+        return keyDown;
+    }
+
+    public boolean isKeyRight() {
+        return keyRight;
+    }
+
+    public boolean isButtonLeft() {
+        return buttonLeft;
+    }
+
+    public boolean isButtonRight() {
+        return buttonRight;
     }
 }

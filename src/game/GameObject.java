@@ -1,36 +1,68 @@
 package game;
 
+import graphics.Sprite;
+import util.InputHandler;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 public final class GameObject {
 
-    public enum ComponentType {
-        ANIMATION,
-        COLLIDER,
-        PLAYER_CONTROLLER,
-        TRANSFORM
-    }
+    private Transform transform;
+    private Animation animation;
+    private PlayerController playerController;
+    private Collider collider;
 
-    private Map<ComponentType, Component> components;
-    
     public GameObject () {
-        components = new LinkedHashMap<>();
-    }
-
-    public GameObject (Map<ComponentType, Component> components) {
-        this.components = components;
+        transform = new Transform(0, 0, 0, 1, 1);
+        animation = new Animation(true);
+        try {
+            animation.addFrame(1, new Sprite(ImageIO.read(new File("resources\\images\\maggot.png")), 0, 0, 16, 16));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        playerController = new PlayerController(new InputHandler());
+        collider = new Collider(transform);
     }
     
     public void update(double deltaTime) {
-        //components.forEach(component -> component.update(deltaTime));
+
     }
 
-    private Component getComponent(ComponentType key) {
-        if(!components.containsKey(key)) throw new NoSuchElementException("This GameObject does not have a " + key);
-        return components.get(key);
+    public Transform getTransform() {
+        return transform;
     }
 
-    //TODO: implement method to automatically sort components according to importance?
+    public void setTransform(Transform transform) {
+        this.transform = transform;
+    }
+
+    public Animation getAnimation() {
+        return animation;
+    }
+
+    public void setAnimation(Animation animation) {
+        this.animation = animation;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
+
+    public Collider getCollider() {
+        return collider;
+    }
+
+    public void setCollider(Collider collider) {
+        this.collider = collider;
+    }
 }

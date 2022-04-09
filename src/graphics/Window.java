@@ -3,19 +3,15 @@ package graphics;
 import javax.swing.*;
 import java.awt.*;
 
+import static graphics.Graphics.SCREEN_HEIGHT;
+import static graphics.Graphics.SCREEN_WIDTH;
+
 class Window extends JFrame {
 
     public Window() {
-        //set bounds based on previously calculated window size, screen size and screen orientation
-        if(Graphics.SCREEN_HEIGHT > Graphics.SCREEN_WIDTH) {
-            setBounds(0, (Graphics.SCREEN_HEIGHT - Graphics.SCREEN_WIDTH) / 2, Graphics.WINDOW_WIDTH, Graphics.WINDOW_HEIGHT);
-            setMinimumSize(Graphics.getWindowDimensions());
-            setExtendedState(Frame.MAXIMIZED_HORIZ);
-        } else {
-            setBounds((Graphics.SCREEN_WIDTH - Graphics.SCREEN_HEIGHT) / 2, 0, Graphics.WINDOW_WIDTH, Graphics.WINDOW_HEIGHT);
-            setMinimumSize(Graphics.getWindowDimensions());
-            setExtendedState(Frame.MAXIMIZED_VERT);
-        }
+        setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        setMinimumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        setExtendedState(Frame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setVisible(true);
         setTitle("Test");

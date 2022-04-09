@@ -1,9 +1,12 @@
 package graphics;
 
+import game.GameObject;
+
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 
 import static main.Main.*;
@@ -39,29 +42,36 @@ class Panel extends JPanel {
         //reset canvas
         super.paintComponent(g2D);
 
-        //BufferedImage image = component.currentFrame(deltaTime).getIMAGE();
-        //int xScreenCoordinates = component.getXScreenCoordinates();
-        //int yScreenCoordinates = component.getYScreenCoordinates();
-        //int width = component.getWidth();
-        //int height = component.getHeight();
-        //Sprite currentFrame = component.currentFrame(deltaTime);
-        //int sampleX1 = currentFrame.getSAMPLE_X1();
-        //int sampleY1 = currentFrame.getSAMPLE_Y1();
-        //int sampleX2 = currentFrame.getSAMPLE_X2();
-        //int sampleY2 = currentFrame.getSAMPLE_Y2();
+        LinkedList<GameObject> gameObjects = new LinkedList<>();
+        gameObjects.add(new GameObject());
+        Scene testScene = new Scene(gameObjects);
+        testScene.update(deltaTime);
 
-        //draw component
-        //g2D.drawImage(image,
-        //        xScreenCoordinates,
-        //        yScreenCoordinates,
-        //        xScreenCoordinates + width,
-        //        yScreenCoordinates + height,
-        //        sampleX1,
-        //        sampleY1,
-        //        sampleX2,
-        //        sampleY2,
-        //        null
-        //);
+        testScene.getBatch().forEach(gameObject -> {
+            BufferedImage image = gameObject.getAnimation().currentSprite(deltaTime).getIMAGE();
+            int xScreenCoordinates = (int) gameObject.getTransform().getX();
+            int yScreenCoordinates = (int) gameObject.getTransform().getY();
+            int width = (int) gameObject.getTransform().getWidth();
+            int height = (int) gameObject.getTransform().getHeight();
+            Sprite currentFrame = gameObject.getAnimation().currentSprite(deltaTime);
+            int sampleX1 = currentFrame.getSAMPLE_X1();
+            int sampleY1 = currentFrame.getSAMPLE_Y1();
+            int sampleX2 = currentFrame.getSAMPLE_X2();
+            int sampleY2 = currentFrame.getSAMPLE_Y2();
+
+            g2D.drawImage(image,
+                    xScreenCoordinates,
+                    yScreenCoordinates,
+                    xScreenCoordinates + width,
+                    yScreenCoordinates + height,
+                    sampleX1,
+                    sampleY1,
+                    sampleX2,
+                    sampleY2,
+                    null
+            );
+        });
+
     }
 
     public void update(double deltaTime) {

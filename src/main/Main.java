@@ -1,6 +1,12 @@
 package main;
 
+import game.GameObject;
+import graphics.Graphics;
+import graphics.Scene;
 import util.InputHandler;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public final class Main {
     public static boolean isRunning = false;
@@ -15,7 +21,7 @@ public final class Main {
 
     public static void init() {
         inputHandler = new InputHandler();
-        //Graphics.setUp();
+        Graphics.setUp();
         isRunning = true;
     }
 
@@ -26,7 +32,7 @@ public final class Main {
 
         while (isRunning) {
             if (deltaTime > 0 && frameTimeLeft < 0) {
-
+                Graphics.update(deltaTime);
                 frameTimeLeft = MIN_FRAME_TIME;
             }
 
