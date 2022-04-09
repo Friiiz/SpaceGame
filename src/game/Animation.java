@@ -1,10 +1,10 @@
-package graphics;
+package game;
 
-import java.io.Serializable;
+import graphics.Sprite;
+
 import java.util.LinkedList;
 
-
-public class Animation implements Serializable {
+public final class Animation extends Component {
     private final LinkedList<Double> FRAME_TIMES;
     private final LinkedList<Sprite> SPRITES;
     private final LinkedList<Sprite> SPRITES_REVERSE;
@@ -25,6 +25,11 @@ public class Animation implements Serializable {
         DOES_LOOP = doesLoop;
     }
 
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+    }
+
     //add frame and corresponding time and update all attributes accordingly
     public void addFrame(double frameTime, Sprite sprite) {
         totalTime += frameTime;
@@ -36,17 +41,16 @@ public class Animation implements Serializable {
         assert FRAME_TIMES.size() == SPRITES.size() : "You always need to add a frame time and a sprite.";
     }
 
+
+
     //get the current sprite based on the elapsed time
-    public Sprite currentSprite(double deltaTime, double facing) {
+    //TODO: separate currentSprite and update
+    public Sprite currentSprite(double deltaTime) {
         assert !SPRITES.isEmpty() || !FRAME_TIMES.isEmpty() : "An animation needs to have at least one frame.";
 
         //return the first frame if only frame is present to save time
         if (FRAME_TIMES.size() == 1 && SPRITES.size() == 1) {
-            if(facing > 270 || facing < 90) {
-                return SPRITES_REVERSE.getFirst();
-            } else {
-                return SPRITES.getFirst();
-            }
+            return SPRITES.getFirst();
         }
 
         //update time attributes
@@ -60,11 +64,7 @@ public class Animation implements Serializable {
             currentFrameIndex = 0;
             if (DOES_LOOP) {
                 reset();
-                if(facing > 270 || facing < 90) {
-                    return SPRITES_REVERSE.getFirst();
-                } else {
-                    return SPRITES.getFirst();
-                }
+                return SPRITES.getFirst();
             }
             else
                 reset();
@@ -77,10 +77,6 @@ public class Animation implements Serializable {
             currentFrameTimeLeft = FRAME_TIMES.get(currentFrameIndex);
         }
 
-        //mirror sprite horizontally depending on direction
-        if(facing > 270 || facing < 90) {
-            return SPRITES_REVERSE.get(currentFrameIndex);
-        }
         return SPRITES.get(currentFrameIndex);
     }
 
