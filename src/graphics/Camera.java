@@ -17,6 +17,7 @@ public class Camera {
     }
 
     public List<GameObject> scan(List<GameObject> gameObjects) {
+        //TODO: find better way to do this
         LinkedList<GameObject> batch = new LinkedList<>();
         gameObjects.forEach(gameObject -> {
             GameObject clone = gameObject;
